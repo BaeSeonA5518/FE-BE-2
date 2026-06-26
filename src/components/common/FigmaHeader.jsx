@@ -1,7 +1,7 @@
 import useFlowStore from '../../store/useFlowStore';
 import SpeakerIcon from './SpeakerIcon';
 import korailLogo from '../../assets/korail-logo.png';
-import { figma } from '../../styles/figmaLayout';
+import { abs, figma } from '../../styles/figmaLayout';
 import { typography } from '../../styles/theme';
 
 function FigmaHeader() {
@@ -14,11 +14,8 @@ function FigmaHeader() {
         src={korailLogo}
         alt="KORAIL"
         style={{
-          position: 'absolute',
-          top: logo.top,
-          left: logo.left,
-          height: logo.height,
-          width: 'auto',
+          ...abs(logo),
+          objectFit: 'contain',
         }}
       />
 

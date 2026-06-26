@@ -64,8 +64,8 @@ export const screenConfig = {
   S2: { label: '위치 권한', showHeader: true, showMap: false },
   S3: { label: '2층 확인', showHeader: true, showMap: false },
   S4: { label: '타는 곳 확정', showHeader: true, showMap: false },
-  S5: { label: '길찾기', showHeader: false, showMap: true },
-  S5_1: { label: '도착', showHeader: false, showMap: true },
+  S5: { label: '길찾기', showHeader: false, showMap: false, fullBleed: true },
+  S5_1: { label: '도착', showHeader: false, showMap: false, fullBleed: true },
   E1: { label: '정적 안내', showHeader: true, showMap: false },
   E2: { label: '2층 이동', showHeader: true, showMap: false },
 };

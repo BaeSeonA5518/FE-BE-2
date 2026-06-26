@@ -60,7 +60,9 @@ function App() {
     <>
       <GlobalStyle />
       <Layout style={{ position: 'relative' }}>
-        {currentScreen.showMap && <MapContainer />}
+        <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden>
+          <MapContainer />
+        </div>
 
         <div
           style={{

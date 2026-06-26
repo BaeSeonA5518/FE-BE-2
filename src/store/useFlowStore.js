@@ -1,6 +1,6 @@
-// src/store/useFlowStore.js
 import { create } from 'zustand';
 import { defaultTicket } from '../data/defaultTicket';
+import { DEFAULT_DESTINATION } from '../data/destination';
 
 const emptyTicket = {
   trainName: '',
@@ -24,6 +24,15 @@ const useFlowStore = create((set, get) => ({
   reservationId: null,
   ticketInfo: { ...emptyTicket },
 
+  destination: { ...DEFAULT_DESTINATION },
+  position: null,
+  heading: 0,
+  bearing: null,
+  distanceM: null,
+  destinationAngle: 0,
+  isTracking: false,
+  geoError: null,
+
   setStep: (nextStep) => set({ step: nextStep }),
 
   setReservation: (id, info) =>
@@ -36,12 +45,14 @@ const useFlowStore = create((set, get) => ({
 
   setMapInstance: (map) => set({ mapInstance: map }),
 
+  setNavigation: (payload) => set((state) => ({ ...state, ...payload })),
+
+  setGeoError: (geoError) => set({ geoError }),
+
   moveToLocation: (lat, lng) => {
     const map = get().mapInstance;
     if (map) {
-      console.log(`[Zustand] 지도를 위도: ${lat}, 경도: ${lng}로 이동합니다.`);
-    } else {
-      console.warn('[Zustand] 지도 객체가 아직 초기화되지 않았습니다.');
+      map.panTo?.({ lat, lng });
     }
   },
 
@@ -50,6 +61,13 @@ const useFlowStore = create((set, get) => ({
       step: 'SMS',
       reservationId: null,
       ticketInfo: { ...emptyTicket },
+      position: null,
+      heading: 0,
+      bearing: null,
+      distanceM: null,
+      destinationAngle: 0,
+      isTracking: false,
+      geoError: null,
     }),
 }));
 

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import useFlowStore from '../store/useFlowStore';
 import S1_Join from './S1_Join';
 import PermissionModal from './common/PermissionModal';
+import { requestGeolocationPermission } from '../hooks/useGeolocation';
+import { requestOrientationPermission } from '../hooks/useDeviceOrientation';
 
 const OverlayRoot = styled.div`
   position: relative;
@@ -19,39 +21,13 @@ function S2_Permission() {
     setStep('S3');
   };
 
-  const requestiOSOrientation = async () => {
-    if (
-      typeof DeviceOrientationEvent !== 'undefined' &&
-      typeof DeviceOrientationEvent.requestPermission === 'function'
-    ) {
-      try {
-        const permissionState = await DeviceOrientationEvent.requestPermission();
-        if (permissionState === 'granted') {
-          handlePermissionSuccess();
-        } else {
-          setStep('E1');
-        }
-      } catch (error) {
-        console.error('iOS 센서 요청 실패', error);
-        setStep('E1');
-      }
-    } else {
+  const handleRequestPermissions = async () => {
+    try {
+      await requestGeolocationPermission();
+      await requestOrientationPermission();
       handlePermissionSuccess();
-    }
-  };
-
-  const handleRequestPermissions = () => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        async () => {
-          await requestiOSOrientation();
-        },
-        (error) => {
-          console.error('GPS 권한 거부됨', error);
-          setStep('E1');
-        }
-      );
-    } else {
+    } catch (error) {
+      console.error('권한 요청 실패', error);
       setStep('E1');
     }
   };
