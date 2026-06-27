@@ -12,12 +12,17 @@ export function getDeviceHeading(event) {
   return null;
 }
 
-/** iOS 13+ 방향 센서 권한 */
-export async function requestOrientationPermission() {
-  if (
+/** iOS 13+ — DeviceOrientationEvent.requestPermission 필요 여부 */
+export function needsIOSOrientationPermission() {
+  return (
     typeof DeviceOrientationEvent !== 'undefined' &&
     typeof DeviceOrientationEvent.requestPermission === 'function'
-  ) {
+  );
+}
+
+/** iOS 13+ 방향 센서 권한 */
+export async function requestOrientationPermission() {
+  if (needsIOSOrientationPermission()) {
     const state = await DeviceOrientationEvent.requestPermission();
     if (state !== 'granted') {
       throw new Error('방향 센서 권한이 거부되었습니다.');

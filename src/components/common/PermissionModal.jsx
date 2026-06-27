@@ -93,7 +93,17 @@ const ActionButton = styled.button`
   }
 `;
 
-function PermissionModal({ onAllow, onDeny, isRequesting = false }) {
+function PermissionModal({ onAllow, onDeny, isRequesting = false, isIOS = false }) {
+  const requestingBody = isIOS
+    ? `1. 동작 및 방향 → 허용
+2. 이어서 위치 → 허용
+
+두 팝업이 순서대로
+나타납니다.`
+    : `브라우저 팝업에서
+위치·방향 센서 허용을
+선택해 주세요.`;
+
   return (
     <>
       <Backdrop aria-hidden="true" />
@@ -110,9 +120,7 @@ function PermissionModal({ onAllow, onDeny, isRequesting = false }) {
             <ModalBodyBox>
               <ModalBody>
                 {isRequesting
-                  ? `브라우저(또는 iPhone) 팝업에서
-위치·방향 센서 허용을
-선택해 주세요.`
+                  ? requestingBody
                   : `안전하고 정확한 승강장
 길찾기 안내를 위해
 위치 정보 및 기기 방향
