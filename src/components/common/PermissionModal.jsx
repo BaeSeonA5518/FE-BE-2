@@ -93,7 +93,7 @@ const ActionButton = styled.button`
   }
 `;
 
-function PermissionModal({ onAllow, onDeny }) {
+function PermissionModal({ onAllow, onDeny, isRequesting = false }) {
   return (
     <>
       <Backdrop aria-hidden="true" />
@@ -101,13 +101,19 @@ function PermissionModal({ onAllow, onDeny }) {
         <Modal>
           <ModalHeader>
             <ModalTitle id="permission-title">
-              현재 정확한 위치를{'\n'}공유하시겠습니까?
+              {isRequesting
+                ? '권한을 확인하고 있어요'
+                : `현재 정확한 위치를\n공유하시겠습니까?`}
             </ModalTitle>
           </ModalHeader>
           <ModalBodyWrap>
             <ModalBodyBox>
               <ModalBody>
-                {`안전하고 정확한 승강장
+                {isRequesting
+                  ? `브라우저(또는 iPhone) 팝업에서
+위치·방향 센서 허용을
+선택해 주세요.`
+                  : `안전하고 정확한 승강장
 길찾기 안내를 위해
 위치 정보 및 기기 방향
 센서 허용이 필요합니다.`}
@@ -115,10 +121,16 @@ function PermissionModal({ onAllow, onDeny }) {
             </ModalBodyBox>
           </ModalBodyWrap>
           <ActionList>
-            <ActionButton type="button" $primary onClick={onAllow}>
-              위치 허용
+            <ActionButton
+              type="button"
+              $primary
+              onClick={onAllow}
+              disabled={isRequesting}
+              style={{ opacity: isRequesting ? 0.55 : 1, cursor: isRequesting ? 'wait' : 'pointer' }}
+            >
+              {isRequesting ? '확인 중…' : '위치 허용'}
             </ActionButton>
-            <ActionButton type="button" $divider onClick={onDeny}>
+            <ActionButton type="button" $divider onClick={onDeny} disabled={isRequesting}>
               허용 안함
             </ActionButton>
           </ActionList>
