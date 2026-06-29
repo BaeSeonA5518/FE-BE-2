@@ -22,6 +22,26 @@ const StatusBar = styled.div`
   font-family: ${typography.fontFamily};
 `;
 
+function CellularSignalIcon() {
+  const bars = [3, 5, 7, 9, 11];
+
+  return (
+    <svg width="22" height="14" viewBox="0 0 22 14" fill="none" aria-hidden>
+      {bars.map((height, index) => (
+        <rect
+          key={index}
+          x={index * 4.5}
+          y={14 - height}
+          width="3"
+          height={height}
+          rx="0.75"
+          fill={colors.black}
+        />
+      ))}
+    </svg>
+  );
+}
+
 const NavBar = styled.div`
   display: flex;
   align-items: center;
@@ -119,7 +139,7 @@ function SMS_Entry() {
     <PhoneFrame>
       <StatusBar>
         <span>7:10</span>
-        <span>●●●</span>
+        <CellularSignalIcon />
       </StatusBar>
 
       <NavBar>
