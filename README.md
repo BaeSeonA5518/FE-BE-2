@@ -33,7 +33,7 @@
 
 ### 🚧 다음 단계
 
-- 백엔드 경로 API 연동 (`GET /api/guide/sessions/{token}`, step별 `bearingDeg`·`instruction`)
+- 백엔드 경로 API 연동 
 - 목적지 mock → 승차권·역 그래프 기반 동적 목적지
 - 지도 SDK 연동 (`MapContainer` 현재 mock)
 - S5_1 도착 화면 polish
@@ -166,13 +166,3 @@ http://localhost:5173/?reservationId=mock-reservation-001
 Vercel에 연결되어 있으며, 커밋 SHA가 `__BUILD_ID__`로 빌드에 포함된다.
 
 ---
-
-## 백엔드 연동 (예정)
-
-백엔드(`freepass_korail`)에서 역 그래프·경로 탐색 API가 준비되면:
-
-1. SMS/URL 토큰 → `GET /api/guide/sessions/{token}` — 승차권·경로 ID
-2. S5 진입 → `GET /api/guide/routes/{routeId}/steps` — step별 bearing·instruction
-3. 프론트는 **현재 step**의 목적지 노드 좌표·방위각으로 나침반 갱신
-
-현재는 mock 목적지·직선 bearing만 사용 중.
