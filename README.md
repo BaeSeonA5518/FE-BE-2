@@ -12,7 +12,6 @@
 - **Zustand** — 화면 흐름·내비게이션 상태
 - **styled-components** — 컴포넌트 스타일
 - **Tailwind CSS 4** — 유틸리티 (Vite 플러그인)
-- **Figma 절대 좌표 레이아웃** — `figmaLayout.js` 기반 픽셀 퍼펙트 UI
 - **Geolocation API** + **DeviceOrientation API** — 위치·나침반 추적
 
 ---
