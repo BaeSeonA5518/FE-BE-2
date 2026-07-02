@@ -4,7 +4,7 @@ import Layout from './components/common/Layout';
 import MapContainer from './components/common/MapContainer';
 import useFlowStore from './store/useFlowStore';
 import { screenConfig } from './styles/theme';
-import { fetchSession } from './api/guide';
+import { fetchSession, getSessionTokenFromUrl } from './api/guide';
 
 import SMS_Entry from './components/SMS_Entry';
 import S1_Join from './components/S1_Join';
@@ -22,8 +22,7 @@ function App() {
   const [sessionError, setSessionError] = useState(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token') ?? params.get('reservationId');
+    const token = getSessionTokenFromUrl();
     if (!token) return;
 
     fetchSession(token)

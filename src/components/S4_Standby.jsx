@@ -20,6 +20,7 @@ function S4_Standby() {
   const {
     ticketInfo,
     reservationId,
+    position,
     setStep,
     setRoute,
     routeLoading,
@@ -46,7 +47,10 @@ function S4_Standby() {
     setRouteLoading(true);
     setRouteError(null);
 
-    fetchRoute({ reservationId })
+    fetchRoute({
+      reservationId,
+      ...(position ? { lat: position.lat, lng: position.lng } : {}),
+    })
       .then((route) => {
         setRoute(route);
         setStep('S5');

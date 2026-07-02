@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 import useFlowStore from '../store/useFlowStore';
-import SpeakerIcon from './common/SpeakerIcon';
 import GeolocationDeniedModal from './common/GeolocationDeniedModal';
 import useNavigationTracking from '../hooks/useNavigationTracking';
 import useFollowAngle from '../hooks/useFollowAngle';
+import useDepartureUrgent from '../hooks/useDepartureUrgent';
+import { DEPARTURE_URGENT_COLOR } from '../utils/time';
 import S5NavigationArrow from './common/S5NavigationArrow';
 import { formatGuideDistance, getCompassDotPosition, getNavigationInstruction } from '../utils/geo';
 import { typography } from '../styles/theme';
@@ -13,8 +14,6 @@ function S5_Navigation() {
   const ticketInfo = useFlowStore((s) => s.ticketInfo);
   const currentInstruction = useFlowStore((s) => s.currentInstruction);
   const routeSteps = useFlowStore((s) => s.routeSteps);
-  const voiceGuide = useFlowStore((s) => s.voiceGuide);
-  const toggleVoiceGuide = useFlowStore((s) => s.toggleVoiceGuide);
   const setStep = useFlowStore((s) => s.setStep);
   const distanceM = useFlowStore((s) => s.distanceM);
   const destinationAngle = useFlowStore((s) => s.destinationAngle);
@@ -26,6 +25,7 @@ function S5_Navigation() {
 
   const s5 = figma.s5;
   const info = ticketInfo;
+  const departureUrgent = useDepartureUrgent(info.departureTime);
   const text = (spec) => figmaText(spec, typography.fontFamily);
   const leftText = (spec) => ({
     ...text(spec),
@@ -95,7 +95,14 @@ function S5_Navigation() {
         }}
       />
       <p style={leftText(s5.timeLabel)}>기차 출발 시간</p>
-      <p style={leftText(s5.timeValue)}>{info.departureTime}</p>
+      <p
+        style={{
+          ...leftText(s5.timeValue),
+          color: departureUrgent ? DEPARTURE_URGENT_COLOR : s5.timeValue.color,
+        }}
+      >
+        {info.departureTime}
+      </p>
 
       {/* 상단 승차 정보 카드 */}
       <div
@@ -221,56 +228,6 @@ function S5_Navigation() {
         {distanceDisplay.unit}
       </p>
       <p style={{ ...leftText(s5.guideText), whiteSpace: 'pre-line' }}>{guideMessage}</p>
-
-      {/* 음성안내 */}
-      <button
-        type="button"
-        onClick={toggleVoiceGuide}
-        aria-pressed={voiceGuide}
-        aria-label="음성안내 토글"
-        style={{
-          position: 'absolute',
-          top: s5.voiceToggle.top,
-          left: s5.voiceToggle.left,
-          width: s5.voiceToggle.width,
-          height: s5.voiceToggle.height,
-          padding: 0,
-          border: 'none',
-          borderRadius: s5.voiceToggle.height / 2,
-          backgroundColor: voiceGuide ? '#34C759' : '#FFFFFF66',
-          cursor: 'pointer',
-        }}
-      >
-        <span
-          style={{
-            position: 'absolute',
-            top: 2,
-            left: voiceGuide ? s5.voiceToggle.width - s5.voiceToggle.height + 2 : 2,
-            width: s5.voiceToggle.height - 4,
-            height: s5.voiceToggle.height - 4,
-            borderRadius: '50%',
-            backgroundColor: '#FFFFFF',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
-          }}
-        />
-      </button>
-
-      <span
-        style={{
-          position: 'absolute',
-          top: s5.speaker.top,
-          left: s5.speaker.left,
-          width: s5.speaker.width,
-          height: s5.speaker.height,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <SpeakerIcon size={24} color="#FFFFFF" />
-      </span>
-
-      <p style={leftText(s5.voiceLabel)}>음성안내</p>
 
       {/* 닫기 */}
       <button

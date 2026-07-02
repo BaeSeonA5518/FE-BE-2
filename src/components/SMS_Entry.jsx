@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import useFlowStore from '../store/useFlowStore';
-import { fetchSession } from '../api/guide';
+import { fetchSession, getSessionTokenFromUrl } from '../api/guide';
 import { colors, typography } from '../styles/theme';
 
 const PhoneFrame = styled.div`
@@ -145,10 +145,16 @@ function SMS_Entry() {
   const [error, setError] = useState(null);
 
   const handleStartService = () => {
+    const token = getSessionTokenFromUrl();
+    if (!token) {
+      setError('유효한 안내 링크가 아닙니다. 문자에 포함된 링크로 다시 접속해 주세요.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
-    fetchSession('mock-reservation-001')
+    fetchSession(token)
       .then((session) => {
         setReservation(session.reservationId, session.ticket);
         setStep('S1');

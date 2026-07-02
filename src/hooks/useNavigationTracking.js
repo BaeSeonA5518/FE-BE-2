@@ -11,12 +11,6 @@ import {
 import useDeviceOrientation from './useDeviceOrientation';
 import useGeolocation from './useGeolocation';
 
-function vibrateOnArrival() {
-  if (typeof navigator !== 'undefined' && navigator.vibrate) {
-    navigator.vibrate([200, 100, 200]);
-  }
-}
-
 function useNavigationTracking({ enabled = true, onArrived } = {}) {
   const hasArrivedRef = useRef(false);
   const { startWatch, stopWatch, error: geoWatchError } = useGeolocation();
@@ -68,8 +62,6 @@ function useNavigationTracking({ enabled = true, onArrived } = {}) {
 
       hasArrivedRef.current = true;
       stopTrackingRef.current();
-
-      vibrateOnArrival();
 
       if (reservationId) {
         completeGuide(reservationId).catch((err) => {

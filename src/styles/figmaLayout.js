@@ -497,6 +497,78 @@ export const figma = {
       border: '4px solid #FFFFFF',
     },
   },
+
+  // S5_1 도착 / 안내 종료
+  s5_1: {
+    background: '#286EF0',
+    rippleRings: [
+      { width: 362, height: 362, top: 208, left: 20, radius: 180, background: '#FFFFFF80' },
+      { width: 283, height: 283, top: 247, left: 59, radius: 180, background: '#FFFFFF80' },
+    ],
+    checkCircle: {
+      width: 184,
+      height: 184,
+      top: 294,
+      left: 109,
+      radius: 180,
+      background: '#FFFFFF',
+    },
+    checkIcon: {
+      width: 99,
+      height: 91,
+      top: 345,
+      left: 150,
+      color: '#286EF0',
+      strokeWidth: 30,
+    },
+    arrivalTitle: {
+      width: 120,
+      height: 67,
+      top: 590,
+      left: 40,
+      fontSize: 48,
+      fontWeight: 800,
+      lineHeight: '140%',
+      color: '#FFFFFF',
+    },
+    arrivalMessage: {
+      width: 320,
+      height: 90,
+      top: 667,
+      left: 40,
+      fontSize: 32,
+      fontWeight: 600,
+      lineHeight: '140%',
+      color: '#FFFFFF',
+    },
+    voiceToggle: { width: 39.22, height: 22, top: 799, left: 40 },
+    speaker: { width: 24, height: 24, top: 799, left: 84 },
+    voiceLabel: {
+      width: 63,
+      height: 25,
+      top: 798,
+      left: 113,
+      fontSize: 18,
+      fontWeight: 500,
+      lineHeight: '140%',
+      color: '#FFFFFF',
+    },
+    closeButton: {
+      width: 60,
+      height: 60,
+      top: 770,
+      left: 306,
+      radius: 100,
+      background: '#FFFFFF33',
+    },
+    closeIcon: {
+      width: 20,
+      height: 20,
+      top: 790,
+      left: 326,
+      border: '4px solid #FFFFFF',
+    },
+  },
 };
 
 export const abs = (el) => ({

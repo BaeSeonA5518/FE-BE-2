@@ -2,7 +2,6 @@ import React from 'react';
 import useFlowStore from '../store/useFlowStore';
 import ScreenShell from './common/ScreenShell';
 import FigmaPrimaryButton from './common/FigmaPrimaryButton';
-import { defaultTicket } from '../data/defaultTicket';
 import { screenConfig, typography } from '../styles/theme';
 import { abs, figma, figmaText } from '../styles/figmaLayout';
 
@@ -10,7 +9,7 @@ function E1_StaticGuide() {
   const { ticketInfo, setStep } = useFlowStore();
   const config = screenConfig.E1;
   const e1 = figma.e1;
-  const info = { ...defaultTicket, ...ticketInfo };
+  const info = ticketInfo;
   const text = (spec) => figmaText(spec, typography.fontFamily);
 
   return (
