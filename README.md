@@ -2,7 +2,7 @@
 
 코레일 역 내부 경로 안내 **프론트엔드**. SMS 링크 또는 사용자 ID로 서비스에 진입하고, **백엔드가 내려준 경로(route)** 를 따라 GPS·기기 방향 센서로 실시간 안내하는 것을 목표로 한다.
 
-**라이브 데모:** [https://korail-fe.vercel.app/](https://korail-fe.vercel.app/)
+**라이브 데모:** [https://fe-be-three.vercel.app/](https://fe-be-three.vercel.app/)
 
 ---
 
