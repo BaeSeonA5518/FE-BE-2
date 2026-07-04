@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import useFlowStore from '../store/useFlowStore';
 import ScreenShell from './common/ScreenShell';
 import FigmaPrimaryButton from './common/FigmaPrimaryButton';
-import ktxLogo from '../assets/ktx-logo.png';
+import ktxLogo from '../assets/KTX .svg';
 import { fetchRoute } from '../api/guide';
 import { fetchPath } from '../api/tickets';
 import { screenConfig, typography } from '../styles/theme';
