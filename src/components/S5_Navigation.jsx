@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import closeIconSvg from '../assets/close.svg';
 import useFlowStore from '../store/useFlowStore';
 import GeolocationDeniedModal from './common/GeolocationDeniedModal';
 import useNavigationTracking from '../hooks/useNavigationTracking';
@@ -252,41 +253,19 @@ function S5_Navigation() {
           border: 'none',
           padding: 0,
           cursor: 'pointer',
-          boxSizing: 'border-box',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <span
+        <img
+          src={closeIconSvg}
+          alt="닫기"
           style={{
-            position: 'absolute',
-            top: s5.closeIcon.top - s5.closeButton.top,
-            left: s5.closeIcon.left - s5.closeButton.left,
             width: s5.closeIcon.width,
             height: s5.closeIcon.height,
           }}
-        >
-          <span
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: s5.closeIcon.width,
-              height: 0,
-              borderTop: s5.closeIcon.border,
-              transform: 'translate(-50%, -50%) rotate(45deg)',
-            }}
-          />
-          <span
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: s5.closeIcon.width,
-              height: 0,
-              borderTop: s5.closeIcon.border,
-              transform: 'translate(-50%, -50%) rotate(-45deg)',
-            }}
-          />
-        </span>
+        />
       </button>
 
       {geoError && (
