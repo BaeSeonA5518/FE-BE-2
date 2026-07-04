@@ -67,10 +67,12 @@ function S2_Permission() {
     requestOrientationPermission()
       .then(() => {
         setOrientationGranted(true);
-        setIsRequesting(false);
+        // 방향 센서 허용 후 자동으로 위치 권한도 연달아 요청
+        return requestGeolocationPermission();
       })
+      .then(() => handlePermissionSuccess())
       .catch((error) => {
-        console.error('방향 센서 권한 실패', error);
+        console.error('권한 요청 실패', error);
         setIsRequesting(false);
         setErrorMessage(`${error.message}\n\n${INAPP_HINT}`);
       });
