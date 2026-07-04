@@ -65,11 +65,6 @@ function S5_Navigation() {
 
   const compassOpacity = isTracking && distanceM == null ? 0.45 : 1;
 
-  const unitLeft =
-    distanceDisplay.value.length <= 2
-      ? s5.distanceUnit.left
-      : s5.distanceUnit.left + (s5.distanceValue.width - distanceDisplay.value.length * 14);
-
   const handleClose = () => {
     stopTracking();
     setGeoError(null);
@@ -209,24 +204,40 @@ function S5_Navigation() {
       </div>
 
       {/* 거리 · 안내 문구 */}
-      <p
+      <div
         style={{
-          ...leftText(s5.distanceValue),
-          width: 120,
-          fontSize: distanceDisplay.fontSize,
-          fontVariantNumeric: 'tabular-nums',
+          position: 'absolute',
+          top: s5.distanceValue.top,
+          left: s5.distanceValue.left,
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: 4,
         }}
       >
-        {distanceDisplay.value}
-      </p>
-      <p
-        style={{
-          ...text(s5.distanceUnit),
-          left: unitLeft,
-        }}
-      >
-        {distanceDisplay.unit}
-      </p>
+        <span
+          style={{
+            fontFamily: typography.fontFamily,
+            fontSize: distanceDisplay.fontSize,
+            fontWeight: s5.distanceValue.fontWeight,
+            color: s5.distanceValue.color,
+            fontVariantNumeric: 'tabular-nums',
+            lineHeight: 1,
+          }}
+        >
+          {distanceDisplay.value}
+        </span>
+        <span
+          style={{
+            fontFamily: typography.fontFamily,
+            fontSize: s5.distanceUnit.fontSize,
+            fontWeight: s5.distanceUnit.fontWeight,
+            color: s5.distanceUnit.color,
+            lineHeight: 1,
+          }}
+        >
+          {distanceDisplay.unit}
+        </span>
+      </div>
       <p style={{ ...leftText(s5.guideText), whiteSpace: 'pre-line' }}>{guideMessage}</p>
 
       {/* 닫기 */}
