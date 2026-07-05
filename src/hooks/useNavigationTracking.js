@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
 import useFlowStore from '../store/useFlowStore';
-import { completeGuide } from '../api/guide';
 import {
   ARRIVAL_RADIUS_M,
   getArrowRotation,
@@ -16,7 +15,6 @@ function useNavigationTracking({ enabled = true, onArrived } = {}) {
   const { startWatch, stopWatch, error: geoWatchError } = useGeolocation();
   const { startListening, stopListening } = useDeviceOrientation();
 
-  const reservationId = useFlowStore((s) => s.reservationId);
   const mapInstance = useFlowStore((s) => s.mapInstance);
   const setNavigation = useFlowStore((s) => s.setNavigation);
   const setGeoError = useFlowStore((s) => s.setGeoError);
@@ -62,17 +60,10 @@ function useNavigationTracking({ enabled = true, onArrived } = {}) {
 
       hasArrivedRef.current = true;
       stopTrackingRef.current();
-
-      if (reservationId) {
-        completeGuide(reservationId).catch((err) => {
-          console.error('[guide/complete]', err);
-        });
-      }
-
       onArrived?.();
       setStep('S5_1');
     },
-    [advanceStep, mapInstance, onArrived, reservationId, setNavigation, setStep]
+    [advanceStep, mapInstance, onArrived, setNavigation, setStep]
   );
 
   const handleHeadingUpdate = useCallback(

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import closeIconSvg from '../assets/close.svg';
 import useFlowStore from '../store/useFlowStore';
 import useDepartureUrgent from '../hooks/useDepartureUrgent';
 import { vibrateOnArrival } from '../utils/haptics';
@@ -8,7 +9,7 @@ import { abs, figma, figmaText } from '../styles/figmaLayout';
 
 function ArrivalCheckIcon({ width, height, color, strokeWidth }) {
   return (
-    <svg width={width} height={height} viewBox="0 0 99 91" fill="none" aria-hidden>
+    <svg width={width} height={height} viewBox="-20 -20 139 131" fill="none" aria-hidden>
       <path
         d="M12 46L38 72L87 18"
         stroke={color}
@@ -164,41 +165,19 @@ function S5_1_Arrived() {
           border: 'none',
           padding: 0,
           cursor: 'pointer',
-          boxSizing: 'border-box',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <span
+        <img
+          src={closeIconSvg}
+          alt="닫기"
           style={{
-            position: 'absolute',
-            top: s51.closeIcon.top - s51.closeButton.top,
-            left: s51.closeIcon.left - s51.closeButton.left,
             width: s51.closeIcon.width,
             height: s51.closeIcon.height,
           }}
-        >
-          <span
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: s51.closeIcon.width,
-              height: 0,
-              borderTop: s51.closeIcon.border,
-              transform: 'translate(-50%, -50%) rotate(45deg)',
-            }}
-          />
-          <span
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: s51.closeIcon.width,
-              height: 0,
-              borderTop: s51.closeIcon.border,
-              transform: 'translate(-50%, -50%) rotate(-45deg)',
-            }}
-          />
-        </span>
+        />
       </button>
     </div>
   );
