@@ -58,7 +58,7 @@ export const GEOLOCATION_OPTIONS = {
 export const ARRIVAL_RADIUS_M = 3;
 
 /** 경로 중간 waypoint 도착 판정 (m) */
-export const STEP_ARRIVAL_RADIUS_M = 10;
+export const STEP_ARRIVAL_RADIUS_M = 5;
 
 /** S5 UI용 거리 표시 — 역 안내는 m, 먼 경우 km */
 export function formatGuideDistance(distanceM) {
