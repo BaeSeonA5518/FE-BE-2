@@ -94,7 +94,7 @@ const useFlowStore = create((set, get) => ({
     const next = routeSteps[nextIndex];
     set({
       currentStepIndex: nextIndex,
-      currentInstruction: next?.instruction ?? '',
+      currentInstruction: routeSteps[currentStepIndex]?.instruction ?? '',
       destination: stepToDestination(next),
       distanceM: null,
       bearing: null,
