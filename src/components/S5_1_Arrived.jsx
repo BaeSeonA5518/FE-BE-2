@@ -85,7 +85,7 @@ function S5_1_Arrived() {
           background: s5.ticketCard.background,
         }}
       />
-      <p style={text(s5.route)}>{`${info.departureStation}→${info.arrivalStation}`}</p>
+      <p style={{ ...text(s5.route), whiteSpace: 'nowrap' }}>{`${info.departureStation}→${info.arrivalStation}`}</p>
       <p style={text(s5.trainName)}>{info.trainName}</p>
       <p style={text(s5.platformLabel)}>타는곳</p>
       <p style={text(s5.carLabel)}>호차번호</p>

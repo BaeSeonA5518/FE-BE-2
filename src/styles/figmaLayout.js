@@ -459,10 +459,10 @@ export const figma = {
       color: '#FFFFFF99',
     },
     guideText: {
-      width: 257,
+      width: 320,
       height: 90,
       top: 667,
-      left: 40,
+      left: 20,
       fontSize: 32,
       fontWeight: 600,
       lineHeight: '140%',

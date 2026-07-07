@@ -35,6 +35,7 @@ const useFlowStore = create((set, get) => ({
 
   routeId: null,
   routeSteps: [],
+  totalDistanceM: null,
   currentStepIndex: 0,
   currentInstruction: '',
   routeLoading: false,
@@ -69,6 +70,7 @@ const useFlowStore = create((set, get) => ({
     set({
       routeId: route?.routeId ?? null,
       routeSteps: steps,
+      totalDistanceM: route?.totalDistanceM ?? null,
       currentStepIndex: 0,
       currentInstruction: first?.instruction ?? '',
       destination: stepToDestination(first),
@@ -125,6 +127,7 @@ const useFlowStore = create((set, get) => ({
       toNode: null,
       routeId: null,
       routeSteps: [],
+      totalDistanceM: null,
       currentStepIndex: 0,
       currentInstruction: '',
       routeLoading: false,

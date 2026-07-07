@@ -143,7 +143,7 @@ export function normalizeUserGuide(data = {}) {
   // 경로: routeFound && route 배열이 있을 때만 정규화
   const rawRoute = Array.isArray(data.route) && data.routeFound !== false ? data.route : null;
   const route = rawRoute
-    ? normalizePath({ route: rawRoute, from: data.fromNode, to: data.platformNode, totalDistanceM: data.totalDistanceM })
+    ? normalizePath({ route: rawRoute, directions: data.directions, from: data.fromNode, to: data.platformNode, totalDistanceM: data.totalDistanceM })
     : null;
 
   return {
@@ -166,15 +166,28 @@ export function normalizeUserGuide(data = {}) {
 export function normalizePath(data = {}) {
   const nodes = data.route ?? [];
 
-  const steps = nodes.map((node, index) => ({
-    order: index,
-    nodeId: String(node.nodeId ?? ''),
-    name: String(node.name ?? ''),
-    lat: Number(node.lat),
-    lng: Number(node.lng),
-    layer: node.layer != null ? Number(node.layer) : undefined,
-    instruction: String(node.name ?? ''),
-  }));
+  // directions.text를 nodeId 기준으로 매핑
+  const dirMap = {};
+  (data.directions ?? []).forEach((d) => {
+    if (d.nodeId) dirMap[d.nodeId] = d;
+  });
+
+  const steps = nodes.map((node, index) => {
+    const dir = dirMap[node.nodeId];
+    return {
+      order: index,
+      nodeId: String(node.nodeId ?? ''),
+      name: String(node.name ?? ''),
+      lat: Number(node.lat),
+      lng: Number(node.lng),
+      layer: node.layer != null ? Number(node.layer) : undefined,
+      instruction: String(dir?.text ?? node.name ?? ''),
+      maneuver: dir?.maneuver ?? null,
+      headingBearing: dir?.headingBearing != null ? Number(dir.headingBearing) : null,
+      distanceToNextM: dir?.distanceToNextM != null ? Number(dir.distanceToNextM) : null,
+      cumulativeDistanceM: dir?.cumulativeDistanceM != null ? Number(dir.cumulativeDistanceM) : null,
+    };
+  });
 
   return {
     routeId: `path-${data.from ?? ''}-${data.to ?? ''}-${Date.now()}`,

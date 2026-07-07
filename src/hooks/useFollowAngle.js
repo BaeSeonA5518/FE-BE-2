@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import { normalizeAngle } from '../utils/geo';
 
 function shortestDelta(from, to) {
-  let diff = normalizeAngle(to - from);
-  if (diff > 180) diff -= 360;
-  return diff;
+  return normalizeAngle(to - from);
 }
 
 /** 목적지 각도에 화살표가 부드럽게 따라가도록 보간 */

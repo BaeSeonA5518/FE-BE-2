@@ -239,7 +239,7 @@ function S5_Navigation() {
           {distanceDisplay.unit}
         </span>
       </div>
-      <p style={{ ...leftText(s5.guideText), whiteSpace: 'pre-line' }}>{guideMessage}</p>
+      <p style={{ ...leftText(s5.guideText), whiteSpace: 'nowrap' }}>{guideMessage}</p>
 
       {/* 닫기 */}
       <button

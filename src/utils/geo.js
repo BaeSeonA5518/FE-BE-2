@@ -28,11 +28,12 @@ export function getBearing(lat1, lng1, lat2, lng2) {
   return normalizeAngle(toDeg(Math.atan2(y, x)));
 }
 
+/** 각도를 -180~180 범위로 정규화 */
 export function normalizeAngle(deg) {
-  return ((deg % 360) + 360) % 360;
+  return ((((deg + 180) % 360) + 360) % 360) - 180;
 }
 
-/** 화살표 회전각 = 목적지 방위각 - 기기 heading */
+/** 화살표 회전각 = 목적지 방위각 - 기기 heading (-180~180) */
 export function getArrowRotation(bearing, heading) {
   return normalizeAngle(bearing - heading);
 }
