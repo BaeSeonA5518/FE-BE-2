@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import useFlowStore from '../store/useFlowStore';
 import { fetchSession, getSessionTokenFromUrl } from '../api/guide';
-import { fetchUserGuide } from '../api/tickets';
+import { fetchUserGuide, fetchUserGuideSteps } from '../api/tickets';
 import { typography } from '../styles/theme';
 
 /* ─── 전체 프레임 ─── */
@@ -300,7 +300,7 @@ const UserIdButton = styled.button`
 
 /* ─── 메인 컴포넌트 ─── */
 function SMS_Entry() {
-  const { setStep, setReservation } = useFlowStore();
+  const { setStep, setReservation, setAudioMap } = useFlowStore();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState('1');
@@ -327,12 +327,30 @@ function SMS_Entry() {
     if (!id || id <= 0) { setError('올바른 사용자 ID를 입력해 주세요.'); return; }
     setLoading(true);
     setError(null);
-    fetchUserGuide(id)
-      .then((guide) => {
+
+    Promise.all([
+      fetchUserGuide(id),
+      fetchUserGuideSteps(id).catch((err) => {
+        console.warn('[guide/steps] 음성 데이터 로드 실패 (계속 진행):', err);
+        return null;
+      }),
+    ])
+      .then(([guide, stepsRes]) => {
         setReservation(guide.reservationId, guide.ticket, guide.fromNode, guide.toNode);
         if (guide.route) {
           useFlowStore.getState().setRoute(guide.route);
         }
+
+        if (stepsRes?.steps?.length) {
+          const map = {};
+          stepsRes.steps.forEach((s) => {
+            if (s.nodeId && s.audioBase64) {
+              map[s.nodeId] = s.audioBase64;
+            }
+          });
+          setAudioMap(map);
+        }
+
         setStep('S1');
       })
       .catch((err) => {

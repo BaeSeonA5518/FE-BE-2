@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { playBase64Audio } from '../utils/audio';
 
 const emptyTicket = {
   trainName: '',
@@ -40,6 +41,7 @@ const useFlowStore = create((set, get) => ({
   currentInstruction: '',
   routeLoading: false,
   routeError: null,
+  audioMap: {},
 
   destination: null,
   position: null,
@@ -62,6 +64,8 @@ const useFlowStore = create((set, get) => ({
 
   setRouteLoading: (routeLoading) => set({ routeLoading }),
   setRouteError: (routeError) => set({ routeError }),
+
+  setAudioMap: (audioMap) => set({ audioMap }),
 
   setRoute: (route) => {
     const steps = route?.steps ?? [];
@@ -87,7 +91,7 @@ const useFlowStore = create((set, get) => ({
   },
 
   advanceStep: () => {
-    const { routeSteps, currentStepIndex } = get();
+    const { routeSteps, currentStepIndex, audioMap, voiceGuide } = get();
     const nextIndex = currentStepIndex + 1;
     if (nextIndex >= routeSteps.length) return false;
 
@@ -100,7 +104,20 @@ const useFlowStore = create((set, get) => ({
       bearing: null,
       destinationAngle: 0,
     });
+
+    if (voiceGuide) {
+      const audio = audioMap[routeSteps[currentStepIndex]?.nodeId];
+      if (audio) playBase64Audio(audio);
+    }
+
     return true;
+  },
+
+  playCurrentStepAudio: () => {
+    const { routeSteps, currentStepIndex, audioMap, voiceGuide } = get();
+    if (!voiceGuide) return;
+    const audio = audioMap[routeSteps[currentStepIndex]?.nodeId];
+    if (audio) playBase64Audio(audio);
   },
 
   toggleVoiceGuide: () => set((state) => ({ voiceGuide: !state.voiceGuide })),
@@ -132,6 +149,7 @@ const useFlowStore = create((set, get) => ({
       currentInstruction: '',
       routeLoading: false,
       routeError: null,
+      audioMap: {},
       destination: null,
       position: null,
       heading: 0,

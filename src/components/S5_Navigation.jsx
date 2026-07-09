@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import closeIconSvg from '../assets/close.svg';
 import useFlowStore from '../store/useFlowStore';
 import GeolocationDeniedModal from './common/GeolocationDeniedModal';
@@ -22,7 +22,15 @@ function S5_Navigation() {
   const setGeoError = useFlowStore((s) => s.setGeoError);
   const isTracking = useFlowStore((s) => s.isTracking);
 
+  const playCurrentStepAudio = useFlowStore((s) => s.playCurrentStepAudio);
+
   const { stopTracking } = useNavigationTracking({ enabled: routeSteps.length > 0 });
+
+  useEffect(() => {
+    playCurrentStepAudio();
+  // 내비게이션 화면 진입 시 1회만 첫 스텝 음성 재생
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const s5 = figma.s5;
   const info = ticketInfo;

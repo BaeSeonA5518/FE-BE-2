@@ -48,6 +48,19 @@ export async function fetchTicket(ticketId) {
 }
 
 /**
+ * 오늘 승차권 단계별 안내 (음성 포함)
+ * GET /api/users/{userId}/guide/steps[?fromNode=n01]
+ * @param {number} userId
+ * @param {string} [fromNode]
+ * @returns {Promise<{ hasTicketToday: boolean, routeFound: boolean, steps: Array<{seq,nodeId,name,text,audioBase64}> }>}
+ */
+export async function fetchUserGuideSteps(userId, fromNode) {
+  if (!userId) throw new Error('userId가 없습니다.');
+  const qs = fromNode ? `?fromNode=${encodeURIComponent(fromNode)}` : '';
+  return apiRequest(`/api/users/${userId}/guide/steps${qs}`);
+}
+
+/**
  * 두 노드 간 최적 경로 (Dijkstra)
  * GET /api/paths?from={from}&to={to}
  * @param {{ from: string, to: string }} params
