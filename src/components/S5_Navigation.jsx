@@ -27,7 +27,7 @@ function S5_Navigation() {
 
   const playCurrentStepAudio = useFlowStore((s) => s.playCurrentStepAudio);
 
-  const { stopTracking, orientationSupported } = useNavigationTracking({ enabled: routeSteps.length > 0 });
+  const { stopTracking } = useNavigationTracking({ enabled: routeSteps.length > 0 });
 
   useEffect(() => {
     playCurrentStepAudio();
@@ -177,75 +177,44 @@ function S5_Navigation() {
       />
 
       {/* 방향 화살표 — 원 중앙 고정, 제자리 회전 */}
-      {orientationSupported ? (
+      <div
+        aria-hidden
+        style={{
+          ...abs(s5.innerRing),
+          borderRadius: '50%',
+          overflow: 'hidden',
+          pointerEvents: 'none',
+        }}
+      >
         <div
-          aria-hidden
           style={{
-            ...abs(s5.innerRing),
-            borderRadius: '50%',
-            overflow: 'hidden',
-            pointerEvents: 'none',
+            position: 'absolute',
+            left: innerLocalCenter,
+            top: innerLocalCenter,
+            width: 0,
+            height: 0,
+            transform: `rotate(${arrowAngle}deg)`,
+            opacity: compassOpacity,
           }}
         >
           <div
             style={{
               position: 'absolute',
-              left: innerLocalCenter,
-              top: innerLocalCenter,
-              width: 0,
-              height: 0,
-              transform: `rotate(${arrowAngle}deg)`,
-              opacity: compassOpacity,
+              left: 0,
+              top: 0,
+              transform: `translate(-50%, -50%) scale(${arrowScale})`,
+              transformOrigin: 'center center',
             }}
           >
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                transform: `translate(-50%, -50%) scale(${arrowScale})`,
-                transformOrigin: 'center center',
-              }}
-            >
-              <S5NavigationArrow
-                width={arrow.width}
-                height={arrow.height}
-                strokeWidth={arrow.strokeWidth}
-                color={arrow.color}
-              />
-            </div>
+            <S5NavigationArrow
+              width={arrow.width}
+              height={arrow.height}
+              strokeWidth={arrow.strokeWidth}
+              color={arrow.color}
+            />
           </div>
         </div>
-      ) : (
-        <div
-          style={{
-            ...abs(s5.innerRing),
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            gap: 8,
-            background: s5.innerRing.background,
-          }}
-        >
-          <span style={{ fontSize: 36 }}>🗺️</span>
-          <span
-            style={{
-              fontFamily: 'Pretendard, sans-serif',
-              fontSize: 22,
-              fontWeight: 600,
-              color: '#fff',
-              textAlign: 'center',
-              lineHeight: 1.6,
-              whiteSpace: 'pre-line',
-              padding: '0 16px',
-            }}
-          >
-            {'화살표 대신\n글과 음성으로 안내할게요.'}
-          </span>
-        </div>
-      )}
+      </div>
 
       {/* 거리 · 안내 문구 */}
       <div

@@ -15,7 +15,7 @@ function useNavigationTracking({ enabled = true, onArrived } = {}) {
   const hasArrivedRef = useRef(false);
   const minDistanceRef = useRef(Infinity);
   const { startWatch, stopWatch, error: geoWatchError } = useGeolocation();
-  const { startListening, stopListening, isSupported: orientationSupported } = useDeviceOrientation();
+  const { startListening, stopListening } = useDeviceOrientation();
 
   const mapInstance = useFlowStore((s) => s.mapInstance);
   const setNavigation = useFlowStore((s) => s.setNavigation);
@@ -132,7 +132,7 @@ function useNavigationTracking({ enabled = true, onArrived } = {}) {
     setGeoError(geoWatchError);
   }, [geoWatchError, setGeoError]);
 
-  return { startTracking, stopTracking, geoError: geoWatchError, orientationSupported };
+  return { startTracking, stopTracking, geoError: geoWatchError };
 }
 
 export default useNavigationTracking;

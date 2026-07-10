@@ -35,9 +35,7 @@ export async function requestOrientationPermission() {
 function useDeviceOrientation() {
   const [heading, setHeading] = useState(0);
   const [isListening, setIsListening] = useState(false);
-  const [isSupported, setIsSupported] = useState(true);
   const handlerRef = useRef(null);
-  const receivedRef = useRef(false);
 
   const stopListening = useCallback(() => {
     if (handlerRef.current) {
@@ -50,15 +48,10 @@ function useDeviceOrientation() {
   const startListening = useCallback(
     (onUpdate) => {
       stopListening();
-      receivedRef.current = false;
 
       const handler = (event) => {
         const next = getDeviceHeading(event);
         if (next == null) return;
-        if (!receivedRef.current) {
-          receivedRef.current = true;
-          setIsSupported(true);
-        }
         setHeading(next);
         onUpdate?.(next);
       };
@@ -66,13 +59,6 @@ function useDeviceOrientation() {
       handlerRef.current = handler;
       window.addEventListener('deviceorientation', handler, true);
       setIsListening(true);
-
-      // 3초 내 이벤트 없으면 미지원으로 판단
-      const timer = setTimeout(() => {
-        if (!receivedRef.current) setIsSupported(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
     },
     [stopListening]
   );
@@ -82,7 +68,6 @@ function useDeviceOrientation() {
   return {
     heading,
     isListening,
-    isSupported,
     startListening,
     stopListening,
     requestPermission: requestOrientationPermission,
