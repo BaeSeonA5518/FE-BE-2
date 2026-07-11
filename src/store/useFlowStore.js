@@ -115,12 +115,13 @@ const useFlowStore = create((set, get) => ({
 
     const next = routeSteps[nextIndex];
     const currentNode = routeSteps[currentStepIndex];
-    const nextInstruction =
-      (next?.nodeId && screenTextMap[next.nodeId]) ?? next?.instruction ?? '';
+    // 현재 노드(방금 도착)의 screenText → 다음 노드로 가는 길 안내
+    const instruction =
+      (currentNode?.nodeId && screenTextMap[currentNode.nodeId]) ?? currentNode?.instruction ?? '';
 
     set({
       currentStepIndex: nextIndex,
-      currentInstruction: nextInstruction,
+      currentInstruction: instruction,
       destination: stepToDestination(next),
       distanceM: null,
       bearing: null,
@@ -129,6 +130,7 @@ const useFlowStore = create((set, get) => ({
 
     if (voiceGuide) {
       const audio = audioMap[currentNode?.nodeId];
+      console.log('[TTS] advanceStep nodeId:', currentNode?.nodeId, '| audio 있음:', !!audio, '| audioMap keys:', Object.keys(audioMap));
       if (audio) playBase64Audio(audio);
     }
 
@@ -139,7 +141,9 @@ const useFlowStore = create((set, get) => ({
   playCurrentStepAudio: () => {
     const { routeSteps, currentStepIndex, audioMap, voiceGuide } = get();
     if (!voiceGuide) return;
-    const audio = audioMap[routeSteps[currentStepIndex]?.nodeId];
+    const nodeId = routeSteps[currentStepIndex]?.nodeId;
+    const audio = audioMap[nodeId];
+    console.log('[TTS] playCurrentStepAudio nodeId:', nodeId, '| audio 있음:', !!audio, '| audioMap keys:', Object.keys(audioMap));
     if (audio) playBase64Audio(audio);
   },
 

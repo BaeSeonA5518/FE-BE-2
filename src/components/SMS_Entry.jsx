@@ -346,8 +346,11 @@ function SMS_Entry() {
             if (s.audioBase64) audioMap[s.nodeId] = s.audioBase64;
             if (s.screenText) screenTextMap[s.nodeId] = s.screenText;
           });
+          console.log('[TTS] guide/steps 로드 완료 | steps:', stepsRes.steps.length, '| audioMap keys:', Object.keys(audioMap), '| screenTextMap keys:', Object.keys(screenTextMap));
           setAudioMap(audioMap);
           setScreenTextMap(screenTextMap);
+        } else {
+          console.warn('[TTS] guide/steps 응답 없음 또는 steps 빈 배열', stepsRes);
         }
 
         // screenTextMap 저장 후에 setRoute 호출해야 초기 instruction이 screenText 기준으로 세팅됨

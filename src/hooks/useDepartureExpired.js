@@ -7,11 +7,13 @@ import { getMinutesUntilDeparture } from '../utils/time';
  */
 export default function useDepartureExpired(departureTime) {
   const [expired, setExpired] = useState(() => {
+    if (import.meta.env.DEV) return false;
     const minutes = getMinutesUntilDeparture(departureTime);
     return minutes != null && minutes < 0;
   });
 
   useEffect(() => {
+    if (import.meta.env.DEV) return;
     const minutes = getMinutesUntilDeparture(departureTime);
     if (minutes == null) return;
 
