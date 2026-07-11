@@ -59,6 +59,7 @@ function S4_Standby() {
   const platformNum = parsePlatformNumber(info.platform);
   const carDigits = parseCarDigits(info.carNumber);
   const loading = localLoading || routeLoading;
+  const noRoute = !fromNode && !toNode && routeSteps.length === 0;
 
   const handleStartNavigation = () => {
     // guide에서 이미 경로를 받아온 경우 바로 이동
@@ -103,8 +104,8 @@ function S4_Standby() {
     <ScreenShell
       showHeader={config.showHeader}
       bottomButton={
-        <FigmaPrimaryButton onClick={handleStartNavigation} disabled={loading}>
-          {loading ? '경로 불러오는 중…' : '길찾기 시작'}
+        <FigmaPrimaryButton onClick={handleStartNavigation} disabled={loading || noRoute}>
+          {loading ? '경로 불러오는 중…' : noRoute ? '승강장 경로 정보 없음' : '길찾기 시작'}
         </FigmaPrimaryButton>
       }
     >

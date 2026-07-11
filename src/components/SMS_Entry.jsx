@@ -336,11 +336,6 @@ function SMS_Entry() {
       }),
     ])
       .then(([guide, stepsRes]) => {
-        if (!guide.routeFound) {
-          setError(guide.message ?? '승강장 경로 정보를 찾을 수 없습니다.');
-          return;
-        }
-
         setReservation(guide.reservationId, guide.ticket, guide.fromNode, guide.toNode);
 
         if (stepsRes?.steps?.length) {
@@ -363,7 +358,8 @@ function SMS_Entry() {
           useFlowStore.getState().setRoute(guide.route);
         }
 
-        setStep('S1');
+        // 경로 없으면 승차권 정보 화면(S4)으로 바로 이동, 있으면 정상 흐름
+        setStep(guide.routeFound ? 'S1' : 'S4');
       })
       .catch((err) => {
         console.error('[users/guide]', err);
