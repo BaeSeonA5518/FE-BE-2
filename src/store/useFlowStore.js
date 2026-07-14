@@ -147,6 +147,57 @@ const useFlowStore = create((set, get) => ({
     if (audio) playBase64Audio(audio);
   },
 
+  /**
+   * guide/walk/stream step → S5 UI 상태 반영
+   * @param {{
+   *   nodeId?: string,
+   *   remainingAlongRouteM?: number,
+   *   arrived?: boolean,
+   *   guide?: { screenText?: string, audioBase64?: string } | null,
+   * }} walkStep
+   */
+  applyWalkStep: (walkStep) => {
+    if (!walkStep) return;
+    const { routeSteps, voiceGuide, currentInstruction } = get();
+    const nodeId = walkStep.nodeId ? String(walkStep.nodeId) : '';
+    const matchedIndex = nodeId
+      ? routeSteps.findIndex((s) => s.nodeId === nodeId)
+      : -1;
+    const matched = matchedIndex >= 0 ? routeSteps[matchedIndex] : null;
+    const instruction =
+      walkStep.guide?.screenText ||
+      (nodeId && get().screenTextMap[nodeId]) ||
+      matched?.instruction ||
+      currentInstruction;
+
+    set({
+      currentInstruction: instruction,
+      distanceM:
+        walkStep.remainingAlongRouteM != null
+          ? Number(walkStep.remainingAlongRouteM)
+          : get().distanceM,
+      ...(matchedIndex >= 0
+        ? {
+            currentStepIndex: matchedIndex,
+            destination: stepToDestination(matched),
+          }
+        : {}),
+      isTracking: true,
+      overshoot: false,
+    });
+
+    if (voiceGuide && walkStep.guide?.audioBase64) {
+      const audio = walkStep.guide.audioBase64;
+      console.log(
+        '[TTS] applyWalkStep nodeId:',
+        nodeId,
+        '| audio length:',
+        audio.length,
+      );
+      playBase64Audio(audio);
+    }
+  },
+
   toggleVoiceGuide: () => set((state) => ({ voiceGuide: !state.voiceGuide })),
 
   setMapInstance: (map) => set({ mapInstance: map }),

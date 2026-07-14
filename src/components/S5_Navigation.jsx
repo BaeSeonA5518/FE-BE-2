@@ -3,6 +3,7 @@ import closeIconSvg from '../assets/close.svg';
 import useFlowStore from '../store/useFlowStore';
 import GeolocationDeniedModal from './common/GeolocationDeniedModal';
 import useNavigationTracking from '../hooks/useNavigationTracking';
+import useWalkStream from '../hooks/useWalkStream';
 import useFollowAngle from '../hooks/useFollowAngle';
 import useDepartureUrgent from '../hooks/useDepartureUrgent';
 import useDepartureExpired from '../hooks/useDepartureExpired';
@@ -14,6 +15,7 @@ import { abs, figma, figmaText } from '../styles/figmaLayout';
 
 const FF = typography.fontFamily;
 const GREEN = '#3FAD62';
+const USE_WALK_STREAM = import.meta.env.DEV;
 
 function CheckIcon({ size = 184 }) {
   const r = size / 2;
@@ -123,9 +125,17 @@ function S5_Navigation() {
 
   const playCurrentStepAudio = useFlowStore((s) => s.playCurrentStepAudio);
 
-  const { stopTracking } = useNavigationTracking({ enabled: routeSteps.length > 0 });
+  const hasRoute = routeSteps.length > 0;
+  const { stopTracking } = useNavigationTracking({
+    enabled: !USE_WALK_STREAM && hasRoute,
+  });
+  const { stopStream } = useWalkStream({
+    enabled: USE_WALK_STREAM && hasRoute,
+  });
 
   useEffect(() => {
+    // DEV walk/stream은 첫 step TTS로 재생하므로 진입 시 중복 재생 스킵
+    if (USE_WALK_STREAM) return;
     playCurrentStepAudio();
   // 내비게이션 화면 진입 시 1회만 첫 스텝 음성 재생
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -175,7 +185,8 @@ function S5_Navigation() {
   const compassOpacity = isTracking && distanceM == null ? 0.45 : 1;
 
   const handleClose = () => {
-    stopTracking();
+    if (USE_WALK_STREAM) stopStream();
+    else stopTracking();
     setGeoError(null);
     setStep('S4');
   };
