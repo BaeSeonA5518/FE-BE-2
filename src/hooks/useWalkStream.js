@@ -3,7 +3,7 @@ import { openGuideWalkStream } from '../api/tickets';
 import useFlowStore from '../store/useFlowStore';
 
 /**
- * DEV용: guide/walk/stream SSE로 S5 내비게이션 UI를 구동한다.
+ * guide/walk/stream SSE로 S5 내비게이션 UI를 구동한다.
  * @param {{ enabled?: boolean, intervalMs?: number, jitterM?: number }} [options]
  */
 function useWalkStream({

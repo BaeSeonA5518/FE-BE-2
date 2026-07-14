@@ -16,8 +16,8 @@ import { abs, figma, figmaText } from '../styles/figmaLayout';
 const FF = typography.fontFamily;
 const GREEN = '#3FAD62';
 const CHECK_GREEN = '#00C35C';
-/** DEV: GPS 대신 guide/walk/stream으로 S5 구동 */
-const USE_WALK_STREAM = import.meta.env.DEV;
+/** walk/stream으로 S5 구동 (GPS 비활성). VITE_USE_WALK_STREAM=false 이면 GPS */
+const USE_WALK_STREAM = import.meta.env.VITE_USE_WALK_STREAM !== 'false';
 
 /** 피그마 체크: 99×91 / top 345 left 150 / border 30 #00C35C */
 function DepartureCheckMark() {
@@ -153,7 +153,7 @@ function S5_Navigation() {
   });
 
   useEffect(() => {
-    // DEV walk/stream은 step TTS로 재생하므로 진입 시 중복 스킵
+    // walk/stream은 step TTS로 재생하므로 진입 시 중복 스킵
     if (USE_WALK_STREAM) return;
     playCurrentStepAudio();
   // 내비게이션 화면 진입 시 1회만 첫 스텝 음성 재생
