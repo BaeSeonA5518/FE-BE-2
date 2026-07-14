@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { playBase64Audio } from '../utils/audio';
+import { getArrowRotation, getBearing } from '../utils/geo';
 import { clearSession, loadSession, saveSession } from '../utils/session';
 
 const emptyTicket = {
@@ -195,6 +196,47 @@ const useFlowStore = create((set, get) => ({
         audio.length,
       );
       playBase64Audio(audio);
+    }
+  },
+
+  /**
+   * guide/simulate 응답 → S5 UI 상태 반영
+   * audio는 stepChanged 일 때만 포함되므로 그때만 재생
+   */
+  applySimulateResult: (res) => {
+    if (!res) return;
+    const guide = res.currentStep
+      ? {
+          screenText: res.currentStep.screenText,
+          audioBase64: res.stepChanged ? res.currentStep.audioBase64 : '',
+        }
+      : null;
+    get().applyWalkStep({
+      nodeId: res.currentStep?.nodeId ?? res.nearestNodeId,
+      remainingAlongRouteM: res.remainingAlongRouteM,
+      arrived: res.arrived,
+      guide,
+    });
+
+    const heading =
+      res.headingDeg != null ? Number(res.headingDeg) : get().heading;
+    const pos =
+      res.curLat != null && res.curLng != null
+        ? { lat: res.curLat, lng: res.curLng }
+        : get().position;
+    const dest = get().destination;
+    let destinationAngle = get().destinationAngle;
+    if (pos?.lat != null && dest?.lat != null) {
+      const bearing = getBearing(pos.lat, pos.lng, dest.lat, dest.lng);
+      destinationAngle = getArrowRotation(bearing, heading);
+      set({
+        heading,
+        position: pos,
+        bearing,
+        destinationAngle,
+      });
+    } else {
+      set({ heading, ...(pos ? { position: pos } : {}) });
     }
   },
 

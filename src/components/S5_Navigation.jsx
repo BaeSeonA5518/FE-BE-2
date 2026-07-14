@@ -3,7 +3,7 @@ import closeIconSvg from '../assets/close.svg';
 import useFlowStore from '../store/useFlowStore';
 import GeolocationDeniedModal from './common/GeolocationDeniedModal';
 import useNavigationTracking from '../hooks/useNavigationTracking';
-import useWalkStream from '../hooks/useWalkStream';
+import useGuideSimulate from '../hooks/useGuideSimulate';
 import useFollowAngle from '../hooks/useFollowAngle';
 import useDepartureUrgent from '../hooks/useDepartureUrgent';
 import useDepartureExpired from '../hooks/useDepartureExpired';
@@ -15,7 +15,8 @@ import { abs, figma, figmaText } from '../styles/figmaLayout';
 
 const FF = typography.fontFamily;
 const GREEN = '#3FAD62';
-const USE_WALK_STREAM = import.meta.env.DEV;
+/** DEV: GPS 대신 guide/simulate으로 S5 구동 */
+const USE_SIMULATE = import.meta.env.DEV;
 
 function CheckIcon({ size = 184 }) {
   const r = size / 2;
@@ -127,15 +128,15 @@ function S5_Navigation() {
 
   const hasRoute = routeSteps.length > 0;
   const { stopTracking } = useNavigationTracking({
-    enabled: !USE_WALK_STREAM && hasRoute,
+    enabled: !USE_SIMULATE && hasRoute,
   });
-  const { stopStream } = useWalkStream({
-    enabled: USE_WALK_STREAM && hasRoute,
+  const { stopSimulate } = useGuideSimulate({
+    enabled: USE_SIMULATE && hasRoute,
   });
 
   useEffect(() => {
-    // DEV walk/stream은 첫 step TTS로 재생하므로 진입 시 중복 재생 스킵
-    if (USE_WALK_STREAM) return;
+    // DEV simulate는 stepChanged 시 TTS 재생하므로 진입 시 중복 스킵
+    if (USE_SIMULATE) return;
     playCurrentStepAudio();
   // 내비게이션 화면 진입 시 1회만 첫 스텝 음성 재생
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,7 +186,7 @@ function S5_Navigation() {
   const compassOpacity = isTracking && distanceM == null ? 0.45 : 1;
 
   const handleClose = () => {
-    if (USE_WALK_STREAM) stopStream();
+    if (USE_SIMULATE) stopSimulate();
     else stopTracking();
     setGeoError(null);
     setStep('S4');
