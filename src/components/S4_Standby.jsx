@@ -188,6 +188,7 @@ function S4_Standby() {
       <FigmaPrimaryButton onClick={handleStartNavigation} disabled={loading || noRoute}>
         {loading ? '경로 불러오는 중…' : noRoute ? '승강장 경로 정보 없음' : '길찾기 시작'}
       </FigmaPrimaryButton>
+
     </div>
   );
 }
