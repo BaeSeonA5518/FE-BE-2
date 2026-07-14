@@ -9,11 +9,11 @@ import { abs, figma, figmaText } from '../styles/figmaLayout';
 
 function ArrivalCheckIcon({ width, height, color, strokeWidth }) {
   return (
-    <svg width={width} height={height} viewBox="-20 -20 139 131" fill="none" aria-hidden>
+    <svg width={width} height={height} viewBox="0 0 100 100" fill="none" aria-hidden>
       <path
-        d="M12 46L38 72L87 18"
+        d="M22 52L40 70L78 28"
         stroke={color}
-        strokeWidth={strokeWidth}
+        strokeWidth={strokeWidth ?? 14}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

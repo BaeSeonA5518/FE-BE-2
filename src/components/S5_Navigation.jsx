@@ -15,20 +15,35 @@ import { abs, figma, figmaText } from '../styles/figmaLayout';
 
 const FF = typography.fontFamily;
 const GREEN = '#3FAD62';
+const CHECK_GREEN = '#00C35C';
 /** DEV: GPS 대신 guide/walk/stream으로 S5 구동 */
 const USE_WALK_STREAM = import.meta.env.DEV;
 
-function CheckIcon({ size = 184 }) {
-  const r = size / 2;
+/** 피그마 체크: 99×91 / top 345 left 150 / border 30 #00C35C */
+function DepartureCheckMark() {
   return (
-    <div style={{
-      width: size, height: size, borderRadius: '50%', background: '#FFFFFF',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-    }}>
-      <svg width={size * 0.65} height={size * 0.6} viewBox="0 0 120 110" fill="none">
-        <path d="M12 46L38 72L87 18" stroke={GREEN} strokeWidth={18} strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </div>
+    <svg
+      width={99}
+      height={91}
+      viewBox="0 0 99 91"
+      fill="none"
+      aria-hidden
+      style={{
+        position: 'absolute',
+        top: 345,
+        left: 150,
+        overflow: 'visible',
+        opacity: 1,
+      }}
+    >
+      <path
+        d="M10 40L32 62L76 16"
+        stroke={CHECK_GREEN}
+        strokeWidth={30}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
@@ -69,10 +84,13 @@ function DepartureExpiredOverlay({ info, s5, text, leftText, onClose }) {
         }} />
       ))}
 
-      {/* 체크 원 */}
-      <div style={{ position: 'absolute', top: 294, left: 109 }}>
-        <CheckIcon size={184} />
-      </div>
+      {/* 체크 원 + 체크 (피그마 좌표) */}
+      <div style={{
+        position: 'absolute', top: 294, left: 109,
+        width: 184, height: 184, borderRadius: '50%',
+        background: '#FFFFFF',
+      }} />
+      <DepartureCheckMark />
 
       {/* 제목 */}
       <p style={{

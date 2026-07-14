@@ -10,13 +10,20 @@ const FF = typography.fontFamily;
 const BLUE = '#286EF0';
 
 function CheckIcon({ size = 184 }) {
+  const icon = size * 0.55;
   return (
     <div style={{
       width: size, height: size, borderRadius: '50%', background: '#FFFFFF',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
-      <svg width={size * 0.65} height={size * 0.6} viewBox="0 0 120 110" fill="none">
-        <path d="M12 46L38 72L87 18" stroke={BLUE} strokeWidth={18} strokeLinecap="round" strokeLinejoin="round" />
+      <svg width={icon} height={icon} viewBox="0 0 100 100" fill="none" aria-hidden>
+        <path
+          d="M22 52L40 70L78 28"
+          stroke={BLUE}
+          strokeWidth={14}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </div>
   );
@@ -53,8 +60,14 @@ function E5_GuideDone() {
         background: BLUE,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <svg width={120} height={110} viewBox="0 0 120 110" fill="none">
-          <path d="M12 46L38 72L87 18" stroke="#FFFFFF" strokeWidth={18} strokeLinecap="round" strokeLinejoin="round" />
+        <svg width={101} height={101} viewBox="0 0 100 100" fill="none" aria-hidden>
+          <path
+            d="M22 52L40 70L78 28"
+            stroke="#FFFFFF"
+            strokeWidth={14}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </div>
 
