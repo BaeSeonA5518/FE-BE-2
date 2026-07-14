@@ -324,51 +324,74 @@ function S5_Navigation() {
         </div>
       </div>
 
-      {/* 거리 · 안내 문구 */}
+      {/* 거리 · 안내 문구 — 세로 스택으로 겹침 방지 */}
       <div
         style={{
           position: 'absolute',
-          top: s5.distanceValue.top,
-          left: s5.distanceValue.left,
+          top: 590,
+          left: 40,
+          width: 250,
           display: 'flex',
-          alignItems: 'baseline',
-          gap: 4,
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: 6,
+          zIndex: 2,
         }}
       >
-        <span
+        <div
           style={{
-            fontFamily: typography.fontFamily,
-            fontSize: distanceDisplay.fontSize,
-            fontWeight: s5.distanceValue.fontWeight,
-            color: s5.distanceValue.color,
-            fontVariantNumeric: 'tabular-nums',
-            lineHeight: 1,
+            display: 'flex',
+            alignItems: 'baseline',
+            gap: 4,
+            flexShrink: 0,
           }}
         >
-          {distanceDisplay.value}
-        </span>
-        <span
+          <span
+            style={{
+              fontFamily: typography.fontFamily,
+              fontSize: distanceDisplay.fontSize,
+              fontWeight: s5.distanceValue.fontWeight,
+              color: s5.distanceValue.color,
+              fontVariantNumeric: 'tabular-nums',
+              lineHeight: 1,
+            }}
+          >
+            {distanceDisplay.value}
+          </span>
+          <span
+            style={{
+              fontFamily: typography.fontFamily,
+              fontSize: s5.distanceUnit.fontSize,
+              fontWeight: s5.distanceUnit.fontWeight,
+              color: s5.distanceUnit.color,
+              lineHeight: 1,
+            }}
+          >
+            {distanceDisplay.unit}
+          </span>
+        </div>
+        <p
           style={{
+            margin: 0,
+            maxWidth: '100%',
             fontFamily: typography.fontFamily,
-            fontSize: s5.distanceUnit.fontSize,
-            fontWeight: s5.distanceUnit.fontWeight,
-            color: s5.distanceUnit.color,
-            lineHeight: 1,
+            fontSize: overshoot ? 32 : 28,
+            fontWeight: 600,
+            lineHeight: 1.35,
+            letterSpacing: 0,
+            color: '#FFFFFF',
+            textAlign: 'left',
+            whiteSpace: 'pre-line',
+            wordBreak: 'keep-all',
+            overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
           }}
         >
-          {distanceDisplay.unit}
-        </span>
+          {guideMessage}
+        </p>
       </div>
-      <p style={
-        overshoot
-          ? {
-              position: 'absolute', top: 667, left: 40, width: 217, height: 90,
-              fontFamily: typography.fontFamily, fontSize: 32, fontWeight: 600,
-              lineHeight: '140%', letterSpacing: 0,
-              color: '#FFFFFF', margin: 0, whiteSpace: 'pre-line',
-            }
-          : { ...text(s5.guideText), textAlign: 'center', left: '50%', transform: 'translateX(-50%)', whiteSpace: 'pre-line', wordBreak: 'keep-all' }
-      }>{guideMessage}</p>
 
       {/* 닫기 */}
       <button

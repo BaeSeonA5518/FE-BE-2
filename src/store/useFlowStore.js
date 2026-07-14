@@ -175,7 +175,7 @@ const useFlowStore = create((set, get) => ({
       currentInstruction: instruction,
       distanceM:
         walkStep.remainingAlongRouteM != null
-          ? Number(walkStep.remainingAlongRouteM)
+          ? Math.round(Number(walkStep.remainingAlongRouteM))
           : get().distanceM,
       ...(matchedIndex >= 0
         ? {
