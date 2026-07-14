@@ -91,7 +91,7 @@ export function openGuideWalkStream(
   userId,
   {
     fromNode,
-    intervalMs = 3000,
+    intervalMs = 5000,
     jitterM = 0,
     onStep,
     onDone,

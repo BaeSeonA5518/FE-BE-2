@@ -8,7 +8,7 @@ import useFlowStore from '../store/useFlowStore';
  */
 function useWalkStream({
   enabled = true,
-  intervalMs = 3000,
+  intervalMs = 5000,
   jitterM = 1,
 } = {}) {
   const esRef = useRef(null);
