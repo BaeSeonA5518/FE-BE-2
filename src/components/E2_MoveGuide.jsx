@@ -6,17 +6,19 @@ import escalatorImg from '../assets/e2-escalator.png';
 import { figma } from '../styles/figmaLayout';
 import { screenConfig, typography } from '../styles/theme';
 
+const BLUE = '#286EF0';
+
 function E2_MoveGuide() {
   const { setStep } = useFlowStore();
   const config = screenConfig.E2;
-  const { heading, photo, guideText } = figma.e2;
+  const { heading, photo, photoPlaceholder, guideText, buttonLabel } = figma.e2;
 
   return (
     <ScreenShell
       showHeader={config.showHeader}
       bottomButton={
         <FigmaPrimaryButton onClick={() => setStep('S3')}>
-          3층으로 올라왔어요
+          {buttonLabel.text}
         </FigmaPrimaryButton>
       }
     >
@@ -41,13 +43,11 @@ function E2_MoveGuide() {
           justifyContent: 'center',
         }}
       >
-        {heading.text}
+        <span style={{ color: BLUE }}>3층</span>으로 이동해주세요!
       </h1>
 
-      {/* 에스컬레이터 사진 */}
-      <img
-        src={escalatorImg}
-        alt="역 내 에스컬레이터 안내"
+      {/* 에스컬레이터 사진 영역 */}
+      <div
         style={{
           position: 'absolute',
           top: photo.top,
@@ -55,9 +55,44 @@ function E2_MoveGuide() {
           width: photo.width,
           height: photo.height,
           borderRadius: photo.radius,
-          objectFit: 'cover',
+          background: photo.background,
+          boxShadow: photo.boxShadow,
+          overflow: 'hidden',
         }}
-      />
+      >
+        {escalatorImg ? (
+          <img
+            src={escalatorImg}
+            alt="역 내 에스컬레이터 안내"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+        ) : (
+          <p
+            style={{
+              margin: 0,
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: typography.fontFamily,
+              fontSize: photoPlaceholder.fontSize,
+              fontWeight: photoPlaceholder.fontWeight,
+              lineHeight: photoPlaceholder.lineHeight,
+              color: photoPlaceholder.color,
+              textAlign: 'center',
+              whiteSpace: 'pre-line',
+            }}
+          >
+            {photoPlaceholder.text}
+          </p>
+        )}
+      </div>
 
       {/* 안내 문구 */}
       <p
@@ -72,8 +107,8 @@ function E2_MoveGuide() {
           fontSize: guideText.fontSize,
           fontWeight: guideText.fontWeight,
           lineHeight: guideText.lineHeight,
+          letterSpacing: guideText.letterSpacing,
           color: guideText.color,
-          letterSpacing: 0,
           textAlign: 'center',
           display: 'flex',
           alignItems: 'center',

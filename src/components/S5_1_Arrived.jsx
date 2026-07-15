@@ -1,33 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import closeIconSvg from '../assets/close.svg';
+import arrivalCheckImg from '../assets/arrival-check.png';
 import useFlowStore from '../store/useFlowStore';
 import useDepartureUrgent from '../hooks/useDepartureUrgent';
 import { vibrateOnArrival } from '../utils/haptics';
 import { DEPARTURE_URGENT_COLOR } from '../utils/time';
 import { typography } from '../styles/theme';
 import { abs, figma, figmaText } from '../styles/figmaLayout';
-
-function ArrivalCheckIcon({ color = '#286EF0', strokeWidth = 30 }) {
-  return (
-    <svg
-      width={99}
-      height={91}
-      viewBox="0 0 99 91"
-      fill="none"
-      aria-hidden
-      style={{ display: 'block', flexShrink: 0 }}
-    >
-      {/* stroke 30이 viewBox 안에 들어가도록 path inset — 흰 원 중앙 정렬 */}
-      <path
-        d="M22 50L40 68L76 28"
-        stroke={color}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function S5_1_Arrived() {
   const ticketInfo = useFlowStore((s) => s.ticketInfo);
@@ -132,7 +111,7 @@ function S5_1_Arrived() {
         />
       ))}
 
-      {/* 흰색 원 + 체크 (피그마: 원 중앙에 99×91 / stroke 30 #286EF0) */}
+      {/* 흰색 원 + 체크 이미지 (99×91, 원 중앙) */}
       <div
         aria-hidden
         style={{
@@ -144,9 +123,19 @@ function S5_1_Arrived() {
           justifyContent: 'center',
         }}
       >
-        <ArrivalCheckIcon
-          color={s51.checkIcon.color}
-          strokeWidth={s51.checkIcon.strokeWidth}
+        <img
+          src={arrivalCheckImg}
+          alt=""
+          width={s51.checkIcon.width}
+          height={s51.checkIcon.height}
+          draggable={false}
+          style={{
+            width: s51.checkIcon.width,
+            height: s51.checkIcon.height,
+            objectFit: 'contain',
+            display: 'block',
+            flexShrink: 0,
+          }}
         />
       </div>
 
