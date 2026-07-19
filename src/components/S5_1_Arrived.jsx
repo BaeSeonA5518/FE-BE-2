@@ -1,12 +1,42 @@
 import React, { useEffect, useMemo } from 'react';
 import closeIconSvg from '../assets/close.svg';
-import arrivalCheckImg from '../assets/arrival-check.png';
 import useFlowStore from '../store/useFlowStore';
 import useDepartureUrgent from '../hooks/useDepartureUrgent';
 import { vibrateOnArrival } from '../utils/haptics';
 import { DEPARTURE_URGENT_COLOR } from '../utils/time';
 import { typography } from '../styles/theme';
 import { abs, figma, figmaText } from '../styles/figmaLayout';
+
+/** 피그마: 99×91 / top 345 left 150 / border(=stroke) 30px solid #286EF0 */
+function ArrivalCheckIcon({ color, strokeWidth, top, left, width, height }) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 99 91"
+      fill="none"
+      aria-hidden
+      style={{
+        position: 'absolute',
+        top,
+        left,
+        width,
+        height,
+        display: 'block',
+        pointerEvents: 'none',
+        overflow: 'visible',
+      }}
+    >
+      <path
+        d="M22 50L40 68L76 28"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 function S5_1_Arrived() {
   const ticketInfo = useFlowStore((s) => s.ticketInfo);
@@ -121,24 +151,14 @@ function S5_1_Arrived() {
         }}
       />
 
-      {/* 가운데 체크: 99×91 / top 345 left 150 */}
-      <img
-        src={arrivalCheckImg}
-        alt=""
-        aria-hidden
+      {/* 가운데 체크: 99×91 / stroke 30 / top 345 left 150 */}
+      <ArrivalCheckIcon
+        color={s51.checkIcon.color}
+        strokeWidth={s51.checkIcon.strokeWidth}
+        top={s51.checkIcon.top}
+        left={s51.checkIcon.left}
         width={s51.checkIcon.width}
         height={s51.checkIcon.height}
-        draggable={false}
-        style={{
-          position: 'absolute',
-          top: s51.checkIcon.top,
-          left: s51.checkIcon.left,
-          width: s51.checkIcon.width,
-          height: s51.checkIcon.height,
-          objectFit: 'contain',
-          display: 'block',
-          pointerEvents: 'none',
-        }}
       />
 
       <p style={{ ...leftText(s51.arrivalTitle), fontWeight: 800 }}>도착</p>

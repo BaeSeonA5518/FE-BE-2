@@ -529,6 +529,7 @@ export const figma = {
       radius: 180,
       background: '#FFFFFF',
     },
+    /** 피그마 벡터: 99×91 @ 345/150, border(=stroke) 30px #286EF0 */
     checkIcon: {
       width: 99,
       height: 91,

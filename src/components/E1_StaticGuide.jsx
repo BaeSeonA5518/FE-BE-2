@@ -2,6 +2,7 @@ import React from 'react';
 import useFlowStore from '../store/useFlowStore';
 import FigmaHeader from './common/FigmaHeader';
 import FigmaPrimaryButton from './common/FigmaPrimaryButton';
+import routeArrowImg from '../assets/e1-route-arrow.png';
 import { typography } from '../styles/theme';
 
 const FF = typography.fontFamily;
@@ -55,70 +56,161 @@ function E1_StaticGuide() {
         </span>
       </div>
 
-      {/* 출발역 */}
+      {/* 출발역 — 피그마: 70×56 / top 274 left 81 */}
       <p style={{
-        position: 'absolute', top: 274, left: 81, width: 70, height: 56, margin: 0,
-        fontFamily: FF, fontSize: 40, fontWeight: 700, lineHeight: '140%',
-        color: '#000000', textAlign: 'center',
+        position: 'absolute',
+        top: 274,
+        left: 81,
+        width: 70,
+        height: 56,
+        margin: 0,
+        fontFamily: FF,
+        fontSize: 40,
+        fontWeight: 700,
+        lineHeight: '140%',
+        letterSpacing: 0,
+        color: '#000000',
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        whiteSpace: 'nowrap',
       }}>
         {info.departureStation}
       </p>
 
-      {/* 출발 시간 */}
-      <p style={{
-        position: 'absolute', top: 332, left: 63, width: 106, height: 56, margin: 0,
-        fontFamily: FF, fontSize: 40, fontWeight: 600, lineHeight: '140%',
-        color: 'rgba(0,0,0,0.7)', textAlign: 'center',
-      }}>
-        {info.departureTime}
-      </p>
+      {/* 화살표 PNG 원본 */}
+      <img
+        src={routeArrowImg}
+        alt=""
+        aria-hidden
+        width={30}
+        height={77}
+        draggable={false}
+        style={{
+          position: 'absolute',
+          top: 280,
+          left: 186,
+          width: 30,
+          height: 77,
+          objectFit: 'contain',
+          display: 'block',
+          pointerEvents: 'none',
+          zIndex: 2,
+        }}
+      />
 
-      {/* 화살표 */}
-      <svg
-        style={{ position: 'absolute', top: 280, left: 179 }}
-        width="88" height="40" viewBox="0 0 88 40"
-        fill="none" xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="arrowGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#286EF0" stopOpacity="0" />
-            <stop offset="100%" stopColor="#286EF0" stopOpacity="1" />
-          </linearGradient>
-        </defs>
-        <polygon points="0,0 88,20 0,40" fill="url(#arrowGrad)" />
-      </svg>
-
-      {/* 도착역 */}
+      {/* 도착역 — 피그마: 70×56 / top 274 left 251 */}
       <p style={{
-        position: 'absolute', top: 274, left: 251, width: 70, height: 56, margin: 0,
-        fontFamily: FF, fontSize: 40, fontWeight: 700, lineHeight: '140%',
-        color: '#000000', textAlign: 'center', whiteSpace: 'nowrap',
+        position: 'absolute',
+        top: 274,
+        left: 251,
+        width: 70,
+        height: 56,
+        margin: 0,
+        fontFamily: FF,
+        fontSize: 40,
+        fontWeight: 700,
+        lineHeight: '140%',
+        letterSpacing: 0,
+        color: '#000000',
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        whiteSpace: 'nowrap',
       }}>
         {info.arrivalStation}
       </p>
 
-      {/* 도착 시간 */}
+      {/* 출발 시간 — 피그마: 106×56 / top 332 left 63 */}
       <p style={{
-        position: 'absolute', top: 332, left: 229, width: 112, height: 56, margin: 0,
-        fontFamily: FF, fontSize: 40, fontWeight: 600, lineHeight: '140%',
-        color: 'rgba(0,0,0,0.7)', textAlign: 'center',
+        position: 'absolute',
+        top: 332,
+        left: 63,
+        width: 106,
+        height: 56,
+        margin: 0,
+        fontFamily: FF,
+        fontSize: 40,
+        fontWeight: 600,
+        lineHeight: '140%',
+        letterSpacing: 0,
+        color: '#000000B2',
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        {info.departureTime}
+      </p>
+
+      {/* 도착 시간 — 피그마: 112×56 / top 332 left 229 */}
+      <p style={{
+        position: 'absolute',
+        top: 332,
+        left: 229,
+        width: 112,
+        height: 56,
+        margin: 0,
+        fontFamily: FF,
+        fontSize: 40,
+        fontWeight: 600,
+        lineHeight: '140%',
+        letterSpacing: 0,
+        color: '#000000B2',
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
         {info.arrivalTime}
       </p>
 
-      {/* KTX 열차 밴드 */}
+      {/* 열차 밴드 — 위·아래 구분선 */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: 404,
+          left: 34,
+          width: 334,
+          height: 0,
+          borderTop: '1px solid #44444480',
+        }}
+      />
       <div style={{
-        position: 'absolute', top: 404, left: 34, width: 334, height: 50,
+        position: 'absolute',
+        top: 404,
+        left: 34,
+        width: 334,
+        height: 50,
         background: '#286EF01A',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
         <span style={{
-          fontFamily: FF, fontSize: 24, fontWeight: 700,
-          lineHeight: '140%', color: '#000000',
+          fontFamily: FF,
+          fontSize: 24,
+          fontWeight: 700,
+          lineHeight: '140%',
+          color: '#000000',
         }}>
           {trainLabel}
         </span>
       </div>
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: 454,
+          left: 34,
+          width: 334,
+          height: 0,
+          borderTop: '1px solid #44444480',
+        }}
+      />
 
       {/* 타는곳/호차번호/좌석번호 통합 컨테이너 */}
       <div style={{
